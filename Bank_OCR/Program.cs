@@ -15,6 +15,8 @@ namespace OCR
         {
             //Selection du fichier
             OpenFileDialog fileDialog = new OpenFileDialog();
+            ClassOCR oCR = new ClassOCR();
+
             fileDialog.Filter = "Fichier Texte (*.TXT)|*.TXT";
             fileDialog.Multiselect = false;
 
@@ -23,18 +25,24 @@ namespace OCR
                 using (StreamReader fileAccountNumber = new StreamReader(fileDialog.FileName))
                 {
                     string LigneAccountNumber;
+                    int iCPTLigne = 0;
 
                     while ((LigneAccountNumber = fileAccountNumber.ReadLine()) != null)
                     {
-                        Console.WriteLine(LigneAccountNumber);
-
-
-
+                        if (iCPTLigne < 3)
+                        {
+                            oCR.tabAccountNumber[iCPTLigne] = LigneAccountNumber.ToCharArray();
+                            iCPTLigne++;
+                        }
+                        else
+                        {
+                            iCPTLigne = 0;
+                        }
                     }
                 }
 
             }
-            ClassOCR oCR = new ClassOCR();
+
 
 
 
